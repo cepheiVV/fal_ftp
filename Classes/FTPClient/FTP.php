@@ -688,6 +688,11 @@ class FTP extends AbstractFTP {
 		if ($result === FALSE) {
 			throw new Exception\FTPConnectionException('Fetching directory "' . $directory . '" faild.', 1408550538);
 		}
+
+		if ($result === NULL) {
+			throw new Exception\FTPConnectionException('Cannot read files from FTP host server. Maybe protected by firewall.', 1535098309);
+		}
+
 		// Some servers do not return anything when using -a, so in that case try again without the -a option.
 		if (sizeof($result) <= 1) {
 			$result = @ftp_rawlist($this->getStream(), '');
